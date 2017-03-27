@@ -10,21 +10,18 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('user-home',  function () {
+Route::get('user-lists',  function () {
     $credentials = Twitter::getCredentials();
    
     $list = Twitter::getListOwnerships(['screen_name'=> ($credentials->screen_name), 'format' => 'json']);
     $lists = json_decode($list,true);
     $arr = $lists['lists'];
     
-    return view('user-home')->with(['arr'=>$arr]);
+    return view('user-lists')->with(['arr'=>$arr]);
 });
+
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('home', function () {
     return view('log');
 });
 
@@ -92,7 +89,7 @@ Route::get('twitter/callback', ['as' => 'twitter.callback', function() {
 
 			Session::put('access_token', $token);
 
-			return Redirect::to('/')->with('flash_notice', 'Congrats! You\'ve successfully signed in!');
+			return Redirect::to('/user-lists')->with('flash_notice', 'Congrats! You\'ve successfully signed in!');
 		}
 
 		return Redirect::route('twitter.error')->with('flash_error', 'Crab! Something went wrong while signing you up!');
@@ -105,29 +102,7 @@ Route::get('twitter/error', ['as' => 'twitter.error', function(){
 
 Route::get('twitter/logout', ['as' => 'twitter.logout', function(){
 	Session::forget('access_token');
-	return Redirect::to('/user-home')->with('flash_notice', 'You\'ve successfully logged out!');
+	return Redirect::to('/')->with('flash_notice', 'You\'ve successfully logged out!');
 }]);
 
-Route::get('lists/show', function()
-{
-  $credentials = Twitter::getCredentials();
-  $list = Twitter::getListOwnerships(['screen_name'=> ($credentials->screen_name), 'format' => 'json']);
-  $lists = json_decode($list,true);
-  $arr = $lists['lists'];
-	return print_r($arr);
-	 
-});
-
-Route::get('/show', function()
-{
-  $credentials = Twitter::getCredentials();
-  
-	return print_r($credentials);
-});
-
-Route::get('/lists/members/create_all', function()
-{
-  $credentials = Twitter::getCredentials();
-	return Twitter::postListCreateAll(['slug' => ($credentials->slug), 'screen_name'=>'moobeat,geektimes_ru']);
-});
-
+Route::post('url',   ['as'=>'post.url' , 'uses' => 'PostController@postListCreateAll']);
