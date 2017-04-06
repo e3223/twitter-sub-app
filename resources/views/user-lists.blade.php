@@ -5,7 +5,7 @@
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
-
+<a href="create-list" class="action-button shadow animate blue">Create new list</a>
 <div class="container">
     <h2>List info table</h2>
 
@@ -40,7 +40,7 @@
                 
         @for($i = 0; $i<count($arr); $i++)
             <tr>
-                <form method="POST" action="{{  route('post.url', ['arr' => $arr[$i]['id_str']]) }}" enctype="multipart/form-data" > 
+                <form method="POST" action="{{  route('post.url', ['arr' => $arr[$i]['id_str']]) }}"  enctype="multipart/form-data" > 
                 {{ csrf_field() }}
                 <td>{{ $arr[$i]['name']}}</td>      
                 <td>{{ $arr[$i]['id_str']}}</td>                 
@@ -48,14 +48,33 @@
                 <td>{{ $arr[$i]['subscriber_count']}}</td>
                 <td>{{ $arr[$i]['member_count']}}</td>
                 <td>{{ $arr[$i]['description']}}</td>
-                <td><input type="file"  required  accept=".csv"   name="users" multiple class="form-control"></td>
-                <td><button type='submit' class="btn btn-success">Add New Users</button></td>
+                <td><input type="file"    accept=".csv"   name="users" multiple class="form-control"></td>
+                <td><button type='submit' name="create" class="btn btn-success">Add New Users</button><button type='submit' name="delete" class="btn btn-danger delete-object">Delete list</button></td>
                 </form>
             </tr>
         @endfor 
            
         </tbody>
     </table>
+  <!--  <table class="table table-bordered">
+    
+            <thead>
+              <tr>
+                <th>Name of the future list</th>
+                <th>Click to create</th>
+              </tr>
+            </thead>
+            <form method="POST"  action="" enctype="multipart/form-data" >
+              <tr>
+                <td><input type="text"></td> 
+                <td><button type='submit' class="btn btn-success">Create new list</button><button type='submit' class="btn btn-info left-margin">Edit List</button><button type='submit' class="btn btn-danger delete-object">Delete list</button></td>
+              </tr> 
+            </form>
+        </tbody>
+    </table>-->
+    
+    
+    
 </div>
 <div class="flash-message">
     @foreach (['danger', 'warning', 'success', 'info'] as $msg)
@@ -65,5 +84,41 @@
       @endif
     @endforeach
   </div> 
+<style>
+    
+.animate
+{
+	transition: all 0.1s;
+	-webkit-transition: all 0.1s;
+}
+
+.action-button
+{
+	position: relative;
+	padding: 10px 40px;
+        margin: 10px 115px 10px 20px;
+        float: right;
+	border-radius: 10px;
+	font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;;
+	font-size: 25px;
+	color: #FFF;
+	text-decoration: none;	
+}
+
+.blue
+{
+	background-color: #3498DB;
+	border-bottom: 5px solid #2980B9;
+	text-shadow: 0px -2px #2980B9;
+}
+
+.action-button:active
+{
+	transform: translate(0px,5px);
+        -webkit-transform: translate(0px,5px);
+	border-bottom: 1px solid;
+}
+a:hover{text-decoration: none;}
+</style>
 </body>
 </html>
