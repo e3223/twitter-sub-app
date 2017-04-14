@@ -14,11 +14,25 @@ class PostController extends Controller
         $screen_name = $request->file('users');
         $list_id = $request->arr;
         
-        $open_csv = fopen($screen_name,'r'); // file with users names
-        $get_csv = fgetcsv($open_csv);
-        $users = implode(",", $get_csv);
+        $handle = fopen($screen_name,'r');     
+        $row = 0;
+        $col = 0;
+          if ($handle) 
+            {
+          while (($row = fgetcsv($handle, 1000)) !== false) 
+            {
+            foreach ($row as $k=>$value) 
+            {
+                $results[$col] = $value;
+            }
+            $col++;
+            unset($row);
+              }        
+            fclose($handle);
+            }      
         
-        Twitter::postListCreateAll(['list_id' => $list_id, 'screen_name'=> $users ]);
+        
+        Twitter::postListCreateAll(['list_id' => $list_id, 'screen_name'=> $results ]);
     	//$twitter = Twitter::postTweet($newTwitte);
         $request->session()->flash('alert-success', 'Users successfully added. ');
     	return redirect('user-lists'); 
