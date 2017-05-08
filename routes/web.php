@@ -106,11 +106,8 @@ Route::get('twitter/logout', ['as' => 'twitter.logout', function(){
 }]);
 
 Route::post('url',   ['as'=>'post.url' , 'uses' => 'PostController@postListCreateAll']);
-
 Route::post('del', ['as'=>'post.del', 'uses' => 'PosctController@deleteList']);
-
 Route::post('create', ['as'=>'post.create', 'uses' => 'PostController@create_list']);
-
 Route::get('create-list', function () {
     return view('create-list');
 });
