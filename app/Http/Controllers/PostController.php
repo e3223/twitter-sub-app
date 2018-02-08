@@ -26,7 +26,9 @@ class PostController extends Controller
                 }
                 fclose($handle);
             }
-            $data = array_chunk($results, 100);
+            $trim = array_map('trim', $results);
+            $result = array_values( array_filter($trim) );
+            $data = array_chunk($result, 100);
             $i    = 0;
                 while ($i < count($data)) {
                 $new = $data[$i];
