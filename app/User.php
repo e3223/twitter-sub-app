@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Validator;
 
 class User extends Authenticatable
 {
@@ -15,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','desc'
     ];
 
     /**
@@ -26,4 +27,40 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    public static $rulesCreate = [
+      "name"  => 'required|alpha_dash|max:25',
+      "desc"  => 'max:100',
+    ];
+    
+    public static $rulesOnUpload = [
+      "users" => 'required',
+    ];
+    
+    public static $messages = [
+      'name.required'   => '*List name is required.',
+      'name:alpha_dash' => '*List name can contain only alph,numeric characters and dashes and underscores.',
+      'name:max'        => '*Maximum list name length must be 25 characters.',
+      'desc:max'        => '*Maximum description lenght must be 100 characters.',
+      'users.required'  => '*Please select a file',
+      
+    ];
+    
+    public function validate($data, $rules,$messages)
+    {
+        $v = Validator::make($data, $rules, $messages);
+
+        if ($v->fails()) {
+            $this->errors = $v->errors();
+            return false;
+        }
+        return true;
+    }
+    
+    public function errors()
+    {
+        return $this->errors;
+    }
+
+
 }

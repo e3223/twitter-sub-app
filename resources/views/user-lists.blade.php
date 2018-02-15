@@ -7,22 +7,9 @@
 <body>
 <a href="create-list" class="action-button shadow animate blue">Create new list</a>
 <div class="container">
-    <h2>List info table</h2>
-
-   
+    <h2>List info table</h2>   
         {{ csrf_field() }}
 
-        @if(count($errors))
-            <div class="alert alert-danger">
-                <strong>Whoops!</strong> There were some problems with your input.
-                <br/>
-                <ul>
-                    @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
 
     <table class="table table-bordered">
         <thead>
@@ -48,39 +35,33 @@
                 <td>{{ $arr[$i]['subscriber_count']}}</td>
                 <td>{{ $arr[$i]['member_count']}}</td>
                 <td>{{ $arr[$i]['description']}}</td>
-                <td><input type="file"    accept=".csv"   name="users" multiple class="form-control"></td>
+                <td><input type="file" accept=".csv" name="users" multiple class="form-control"></td>
                 <td><button type='submit' name="create" class="btn btn-success">Add New Users</button><button type='submit' name="delete" class="btn btn-danger delete-object">Delete list</button></td>
                 </form>
             </tr>
         @endfor 
            
         </tbody>
-    </table>
-  <!--  <table class="table table-bordered">
-    
-            <thead>
-              <tr>
-                <th>Name of the future list</th>
-                <th>Click to create</th>
-              </tr>
-            </thead>
-            <form method="POST"  action="" enctype="multipart/form-data" >
-              <tr>
-                <td><input type="text"></td> 
-                <td><button type='submit' class="btn btn-success">Create new list</button><button type='submit' class="btn btn-info left-margin">Edit List</button><button type='submit' class="btn btn-danger delete-object">Delete list</button></td>
-              </tr> 
-            </form>
-        </tbody>
-    </table>-->
-    
-    
-    
+    </table>         
 </div>
-<div class="flash-message">
-    @foreach (['danger', 'warning', 'success', 'info'] as $msg)
-      @if(Session::has('alert-' . $msg))
+        @if(count($errors))
+            <div class="alert alert-danger">
+                <strong>Whoops!</strong>
+                <br/>
+                <ul>
+                    @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-      <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
+<div class="flash-message">
+    @foreach (['danger', 'error', 'warning', 'success', 'info'] as $msg)
+      @if(Session::has('alert-' . $msg))
+      <p class="alert alert-{{ $msg }}">
+      {{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      </p>
       @endif
     @endforeach
   </div> 
@@ -96,8 +77,8 @@
 {
 	position: relative;
 	padding: 10px 40px;
-        margin: 10px 115px 10px 20px;
-        float: right;
+  margin: 10px 115px 10px 20px;
+  float: right;
 	border-radius: 10px;
 	font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;;
 	font-size: 25px;

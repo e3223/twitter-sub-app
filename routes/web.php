@@ -97,6 +97,7 @@ Route::get('twitter/callback', ['as' => 'twitter.callback', function() {
 }]);
 
 Route::get('twitter/error', ['as' => 'twitter.error', function(){
+    return view('error.404');
 	// Something went wrong, add your own error handling here
 }]);
 
