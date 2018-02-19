@@ -16,7 +16,7 @@
             width: 100%;
             color: #B0BEC5;
             display: table;
-            font-weight: 100;
+            font-weight: 300;
             font-family: 'Lato';
          }
          .container {
@@ -32,6 +32,18 @@
             font-size: 72px;
             margin-bottom: 40px;
          }
+         
+         .error{
+            font-weight: 900;
+         }
+         .alert{
+            font-size: xx-large;
+            font-weight: bold;
+         }
+         
+         
+         
+         
       </style>
 		
    </head>
@@ -39,8 +51,19 @@
 	
       <div class = "container">
          <div class = "content">
-            <div class = "title">404 Error</div>
+            <div class = "title">Error 
+            @if (session('msg_code'))
+              <div class="error">
+                  {{ session('msg_code') }}
+              </div>
+            @endif</div>
          </div>
+          @if (session('msg_error'))
+              <div class="alert alert-danger">
+                  {{ session('msg_error') }}
+              </div>
+          @endif
+  </div>
       </div>
 		
    </body>

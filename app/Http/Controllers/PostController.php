@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+
+use Exception;
 use App\User;
 use Twitter;
 use Illuminate\Http\Request;
@@ -12,6 +14,7 @@ class PostController extends Controller
 
     public function postListCreateAll(Request $request)
     {
+      try{
         if (isset($_POST['create'])) {
             $user = new User();
             $data = $request->all();
@@ -59,6 +62,12 @@ class PostController extends Controller
             $request->session()->flash('alert-success', 'List was successfully deleted ');
             return redirect('user-lists');
         }
+        } catch (Exception $e) {
+        
+        $msg_code = $e->getCode();
+        $msg_msg  = $e->getMessage();
+        return Redirect('/twitter/error')->with(['msg_code'=>$msg_code, 'msg_error' => $msg_msg]);
+    }
     }
 
     public function create_list(Request $request)
